@@ -1,8 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h5>Nama: </h5>
-<p>{{nama}}</p>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Rayhan Putra Randi</a>
+      <button class="btn btn-danger" type="submit" ><i class="btn-danger"></i><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <style>
+  h1, h5, p {text-align: center; color: rgb(255, 255, 255);}
+  th {text-align: center;}
+  tr {background-color: rgba(0,0,0,0.75);}
+  div {text-align: center;}
+  table, th, td {
+    border: 1px solid rgb(255, 255, 255);
+    table-layout: fixed;
+    text-align: center;
+    word-break: break-all
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+  }
+  body {
+    margin: 0;
+    background: linear-gradient(to top, rgba(41, 41, 48, 0.974) 45%, rgb(30, 28, 28) 55%);
+    height:100vh;
+    color:#fff;
+  }
+  </style>
+
+<br>
+<h5>Logged in user: </h5>
+<p>{{request.user}}</p>
 
 <table>
     <tr>
@@ -19,8 +85,9 @@
     </tr>
     {% endfor %}
 </table>
+<br>
 
 <h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+
 
 {% endblock content %}
