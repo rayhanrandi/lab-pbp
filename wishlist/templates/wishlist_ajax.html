@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Rayhan Putra Randi</a>
+      <button class="btn btn-danger" type="submit" ><i class="btn-danger"></i><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <style>
+  h1, h5, p {text-align: center; color: rgb(255, 255, 255);}
+  th {text-align: center;}
+  tr {background-color: rgba(0,0,0,0.75);}
+  div {text-align: center;}
+  table, th, td {
+    border: 1px solid rgb(255, 255, 255);
+    table-layout: fixed;
+    text-align: center;
+    word-break: break-all
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+  }
+  body {
+    margin: 0;
+    background: linear-gradient(to top, rgba(41, 41, 48, 0.974) 45%, rgb(30, 28, 28) 55%);
+    height:100vh;
+    color:#fff;
+  }
+  </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function getJSON(){
+    $("button").click(function(){
+    $("tr.data2").html('');    
+    $.get('/wishlist/json', function (data) {
+        data.map((singleData) =>
+        $("table").append(`<tr class = "data2">
+        <td>${singleData.fields.nama_barang}</td>
+        <td>${singleData.fields.harga_barang}</td>
+        <td>${singleData.fields.deskripsi}</td>
+        </tr>`)
+        );
+        });
+    });
+});
+
+$(document).ready( function() {
+    additem();
+    $(".additem").click(function() {
+        $.post(
+            "/wishlist/ajax/", {
+            nama_barang: document.getElementById('nama_barang').value,
+            harga_barang: document.getElementById('harga_barang').value,
+            deskripsi: document.getElementById('deskripsi').value,
+            }, 
+            function(_){
+                getJSON();
+            });
+    });
+});
+</script>
+
+
+<div class = "data">
+    <table class="table table-light table-striped">
+        <th>Nama Barang</th>
+        <th>Harga Barang</th>
+        <th>Deskripsi</th>
+        </tr>
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Nama Barang</p>
+    <input type="text" id="nama_barang" name="nama_barang">
+    <p>Harga Barang</p>
+    <input type="text" id="harga_barang" name="harga_barang">
+    <p>Deskripsi</p>
+    <input type="text" id="deskripsi" name="deskripsi">
+    <br>
+    <button type="submit" name="submit" value="create">Add Item</button>
+</form>
+
+    
+<br>
+<button class="button">Get JSON data</button>
+
+<!-- <h5>Sesi terakhir login: {{ last_login }}</h5> -->
+
+
+{% endblock content %}
